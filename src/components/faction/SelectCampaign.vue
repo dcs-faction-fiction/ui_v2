@@ -29,6 +29,10 @@ export default {
     },
     localSelection(val) {
       this.$emit('update:selection', val);
+    },
+    items(val) {
+      if (!this.localSelection && val && val.length > 0)
+        this.localSelection = val[0];
     }
   },
   methods: {

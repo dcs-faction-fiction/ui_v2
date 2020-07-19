@@ -1,5 +1,13 @@
 const API_URL_BASE = "http://localhost:8080/v2";
 
+export function createCampaign(campaignBody, func) {
+  post(API_URL_BASE + "/campaign-api/campaigns", campaignBody, func);
+}
+
+export function getDefaultGameOptions(func) {
+  get(API_URL_BASE + "/common-api/default-game-options", func);
+}
+
 export function getCampaignsForFaction(faction, func) {
   get(API_URL_BASE + "/campaignfaction-api/factions/"+faction+"/campaigns", func);
 }
@@ -40,7 +48,7 @@ function post(url, jsonRequest, func) {
   fetch(url, {
     method: 'POST',
     headers: {
-      'Authorization': 'Bearer' + localStorage.token,
+      'Authorization': 'Bearer ' + localStorage.token,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(jsonRequest)
@@ -54,7 +62,7 @@ function get(url, func) {
   fetch(url, {
     method: 'GET',
     headers: {
-      'Authorization': 'Bearer' + localStorage.token
+      'Authorization': 'Bearer ' + localStorage.token
     }
   })
   .then(resp => resp.ok ? resp.json() : [])

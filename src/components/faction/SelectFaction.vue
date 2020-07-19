@@ -26,19 +26,28 @@ export default {
   watch: {
     localSelection(val) {
       this.$emit('update:selection', val);
+    },
+    factions(val) {
+      if (!this.localSelection && val && val.length > 0)
+        this.localSelection = val[0].name;
+    }
+  },
+  methods: {
+    reload() {
+      getFactions(factions => {
+        if (!factions || factions.length == 0) {
+          var name = prompt("Name for a new faction");
+          newFaction(name, () => {
+            getFactions(factions => this.factions = factions);
+          })
+        } else {
+          this.factions = factions;
+        }
+      });
     }
   },
   created() {
-    getFactions(factions => {
-      if (!factions || factions.length == 0) {
-        var name = prompt("Name for a new faction");
-        newFaction(name, () => {
-          getFactions(factions => this.factions = factions);
-        })
-      } else {
-        this.factions = factions;
-      }
-    });
+    this.reload();
   }
 }
 </script>
