@@ -1,27 +1,24 @@
 <template>
   <div id="app">
     <JWT/>
+    <FactionMain/>
   </div>
 </template>
 
 <script>
 import JWT from './components/JWT.vue';
+import FactionMain from './components/faction/FactionMain.vue';
 
 export default {
   name: 'App',
   components: {
-    JWT
+    JWT,
+    FactionMain
   }
 }
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

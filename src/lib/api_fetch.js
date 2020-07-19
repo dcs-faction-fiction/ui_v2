@@ -1,5 +1,9 @@
 const API_URL_BASE = "http://localhost:8080/v2";
 
+export function getCampaignsForFaction(faction, func) {
+  get(API_URL_BASE + "/campaignfaction-api/factions/"+faction+"/campaigns", func);
+}
+
 export function getFactions(func) {
   if (getToken().isFactionManager()) {
     get(API_URL_BASE + "/faction-api/factions", func);
@@ -7,6 +11,10 @@ export function getFactions(func) {
     console.log("Not a faction manager, returning empty list.")
     func([]);
   }
+}
+
+export function newFaction(name, func) {
+  post(API_URL_BASE + "/faction-api/factions", name, func);
 }
 
 export function getToken() {
@@ -28,11 +36,25 @@ export function getToken() {
   }
 }
 
+function post(url, jsonRequest, func) {
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer' + localStorage.token,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(jsonRequest)
+  })
+  .then(resp => resp.ok ? resp.json() : [])
+  .then(body => func(body))
+  .catch(err => console.log(err));
+}
+
 function get(url, func) {
   fetch(url, {
     method: 'GET',
     headers: {
-      'Authorization': 'Bearer' + localStorage.token,
+      'Authorization': 'Bearer' + localStorage.token
     }
   })
   .then(resp => resp.ok ? resp.json() : [])
