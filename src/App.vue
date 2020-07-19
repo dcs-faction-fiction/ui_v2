@@ -1,11 +1,17 @@
 <template>
   <div id="app">
+    <JWT/>
   </div>
 </template>
 
 <script>
+import JWT from './components/JWT.vue';
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    JWT
+  }
 }
 </script>
 
