@@ -16,11 +16,12 @@
 
 <script>
 import { getDefaultGameOptions, createCampaign } from '@/lib/api_fetch.js';
+import { AIRBASES } from '@/lib/constants.js';
 
 export default {
   data() {
     return {
-      AIRBASES: ["ANAPA", "KRYMSK", "SOCHI", "MAYKOP", "SENAKI", "KOBULETI", "BATUMI", "KUTAISI"],
+      AIRBASES: AIRBASES,
       factions: [{}, {}, {}, {}],
       campaignName: "",
       defaultGameOptions: {}

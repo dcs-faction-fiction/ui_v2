@@ -1,0 +1,1 @@
+export const AIRBASES = ["ANAPA", "KRYMSK", "SOCHI", "MAYKOP", "SENAKI", "KOBULETI", "BATUMI", "KUTAISI"];

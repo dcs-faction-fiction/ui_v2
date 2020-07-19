@@ -1,5 +1,9 @@
 const API_URL_BASE = "http://localhost:8080/v2";
 
+export function addFactionToCampaign(campaignName, factionBody, func) {
+    post(API_URL_BASE + "/campaign-api/campaigns/"+campaignName+"/factions", factionBody, func);
+}
+
 export function createCampaign(campaignBody, func) {
   post(API_URL_BASE + "/campaign-api/campaigns", campaignBody, func);
 }
