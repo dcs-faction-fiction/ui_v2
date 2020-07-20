@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { getFactionSituation } from '@/lib/api_fetch.js';
+import { getFactionSituation, getCampaignGameOptions } from '@/lib/api_fetch.js';
 import UnitMap from './UnitMap.vue';
 
 export default {
@@ -18,7 +18,8 @@ export default {
   },
   data() {
     return {
-      situation: {}
+      situation: {},
+      gameOptions: {}
     };
   },
   methods: {
@@ -27,6 +28,7 @@ export default {
         return
 
       getFactionSituation(this.selectedCampaign, this.selectedFaction, s => this.situation = s);
+      getCampaignGameOptions(this.selectedCampaign, this.selectedFaction, s => this.gameOptions = s);
     }
   },
   watch: {

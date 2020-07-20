@@ -1,5 +1,9 @@
 const API_URL_BASE = "http://localhost:8080/v2";
 
+export function getCampaignGameOptions(campaignName, factionName, func) {
+  get(API_URL_BASE + "/campaignfaction-api/campaigns/"+campaignName+"/factions/"+factionName+"/game-options", func);
+}
+
 export function getFactionSituation(campaignName, factionName, func) {
   get(API_URL_BASE + "/campaignfaction-api/campaigns/"+campaignName+"/factions/"+factionName, func);
 }
