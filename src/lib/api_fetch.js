@@ -1,5 +1,9 @@
 const API_URL_BASE = "http://localhost:8080/v2";
 
+export function getFactionSituation(campaignName, factionName, func) {
+  get(API_URL_BASE + "/campaignfaction-api/campaigns/"+campaignName+"/factions/"+factionName, func);
+}
+
 export function addFactionToCampaign(campaignName, factionBody, func) {
     post(API_URL_BASE + "/campaign-api/campaigns/"+campaignName+"/factions", factionBody, func);
 }
@@ -17,7 +21,7 @@ export function getCampaignsForFaction(faction, func) {
 }
 
 export function getFactions(func) {
-  if (getToken().isFactionManager()) {
+  if (getToken().isFactionManager) {
     get(API_URL_BASE + "/faction-api/factions", func);
   } else {
     console.log("Not a faction manager, returning empty list.")
@@ -35,12 +39,8 @@ export function getToken() {
     return {
       token: localStorage.token,
       parsedToken: parsed,
-      isFactionManager: function() {
-        return this.parsedToken.roles.includes("faction_manager")
-      },
-      isCampaignManager: function() {
-        return this.parsedToken.roles.includes("campaign_manager")
-      }
+      isFactionManager: parsed.roles.includes("faction_manager"),
+      isCampaignManager: parsed.roles.includes("campaign_manager")
     };
   } catch (e) {
     console.log(e);

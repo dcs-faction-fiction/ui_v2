@@ -1,7 +1,7 @@
 <template>
   <div id="add-faction-to-campaign">
     Add faction to campaign: <br/>
-    Campaign: 
+    Campaign:
     <input type="text" v-model="campaignName" placeholder="Campaign name"/>
     Faction:
     <input type="text" v-model="faction.faction" placeholder="Faction name"/>

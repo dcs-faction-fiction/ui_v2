@@ -1,20 +1,40 @@
 <template>
   <div>
+    <UnitMap :situation="situation"/>
   </div>
 </template>
 
 <script>
+import { getFactionSituation } from '@/lib/api_fetch.js';
+import UnitMap from './UnitMap.vue';
+
 export default {
+  components: {
+    UnitMap
+  },
   props: {
     selectedFaction: {},
     selectedCampaign: {}
   },
+  data() {
+    return {
+      situation: {}
+    };
+  },
+  methods: {
+    reloadSituation() {
+      if (!this.selectedFaction || !this.selectedCampaign)
+        return
+
+      getFactionSituation(this.selectedCampaign, this.selectedFaction, s => this.situation = s);
+    }
+  },
   watch: {
-    selectedFaction(val) {
-      console.log(val)
+    selectedFaction() {
+      this.reloadSituation()
     },
-    selectedCampaign(val) {
-      console.log(val)
+    selectedCampaign() {
+      this.reloadSituation()
     }
   }
 }
