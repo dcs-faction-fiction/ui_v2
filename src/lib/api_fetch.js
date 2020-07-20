@@ -1,5 +1,13 @@
 const API_URL_BASE = "http://localhost:8080/v2";
 
+export function giveCredits(campaignName, factionName, credits, func) {
+  post(API_URL_BASE + "/purchase-api/campaigns/"+campaignName+"/factions/"+factionName+"/give-credits", credits, func);
+}
+
+export function buyUnit(campaignName, factionName, unit, func) {
+  post(API_URL_BASE + "/purchase-api/campaigns/"+campaignName+"/factions/"+factionName+"/buy-unit", unit, func);
+}
+
 export function buyWarehouseItem(campaignName, factionName, itemCode, func) {
   post(API_URL_BASE + "/purchase-api/campaigns/"+campaignName+"/factions/"+factionName+"/buy-warehouse-item", itemCode, func);
 }

@@ -68,6 +68,8 @@ export default {
       var coords = this.getAirbaseCoords()
       if (this.mapObjects['airbase']) {
         this.mapObjects['airbase'].remove()
+      } else {
+        this.map.setView(coords)
       }
       this.mapObjects['airbase'] = new L.Circle(coords, this.situation.zoneSizeFt * 0.3048, {
         stroke: true,
@@ -80,7 +82,6 @@ export default {
         clickable: true
       })
       this.mapObjects['airbase'].addTo(this.map)
-      this.map.setView(coords)
     },
     changeUnitPosition(id, lat, lon) {
       var newunits = JSON.parse(JSON.stringify(this.getUnits()))
@@ -92,27 +93,13 @@ export default {
     },
     mapClickedAt(lat, lon) {
       this.$eventHub.$emit('latlon-selected', {lat: lat, lon: lon})
-    }
-  },
-  mounted() {
-    if (!this.map) {
-      this.map = L.map('map', {zoom: 8, center: [42, 42]})
-      this.map.on('click', e => this.mapClickedAt(e.latlng.lat, e.latlng.lng))
-      mapLayer.addTo(this.map)
-      terrainLayer.addTo(this.map)
-      setTimeout(() => this.map.invalidateSize(), 0)
-    }
-  },
-  watch: {
-    situation() {
+    },
+    refreshUnits() {
       var units = this.getUnits();
-      if (units) {
-        console.log(units);
+      if (!units) {
+        return
       }
 
-      this.replaceAirbase()
-      setTimeout(() => this.map.invalidateSize(), 0);
-      /*
       // Need to convert units into leaflet market instances and keep their uuid to be
       // recognized later.
 
@@ -148,7 +135,23 @@ export default {
         marker.addTo(this.map)
         this.mapObjects['units'].push(marker)
       }
-      */
+
+    }
+  },
+  mounted() {
+    if (!this.map) {
+      this.map = L.map('map', {zoom: 8, center: [42, 42]})
+      this.map.on('click', e => this.mapClickedAt(e.latlng.lat, e.latlng.lng))
+      mapLayer.addTo(this.map)
+      terrainLayer.addTo(this.map)
+      setTimeout(() => this.map.invalidateSize(), 0)
+    }
+  },
+  watch: {
+    situation() {
+      this.replaceAirbase()
+      this.refreshUnits()
+      setTimeout(() => this.map.invalidateSize(), 0);
     }
   }
 }

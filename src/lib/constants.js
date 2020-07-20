@@ -2,14 +2,14 @@ export const AIRBASES = ["ANAPA", "KRYMSK", "SOCHI", "MAYKOP", "SENAKI", "KOBULE
 export const AIRBASE_LOCATIONS = {
   ANAPA: {
     lat: 45.0045166,
-    lon:37.3466833
+    lon: 37.3466833
   },
   KRYMSK: {
     lat: 44.96881666,
     lon: 37.99353333
   },
   SOCHI: {
-    let: 43.44441666,
+    lat: 43.44441666,
     lon: 39.94143333
   },
   MAYKOP: {

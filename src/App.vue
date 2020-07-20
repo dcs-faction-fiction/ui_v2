@@ -1,11 +1,15 @@
 <template>
   <div id="app">
     <JWT/>
-    <FactionMain/>
+
+    <div id="campaign-manager" v-if="showFactionManager">
+      <FactionMain/>
+    </div>
 
     <div id="campaign-manager" v-if="showCamapignManager">
       <CreateCampaign/>
       <AddFactionToCampaign/>
+      <GiveCredits/>
     </div>
   </div>
 </template>
@@ -16,11 +20,13 @@ import JWT from './components/JWT.vue';
 import FactionMain from './components/faction/FactionMain.vue';
 import CreateCampaign from './components/campaign/CreateCampaign.vue';
 import AddFactionToCampaign from './components/campaign/AddFactionToCampaign.vue';
+import GiveCredits from './components/campaign/GiveCredits.vue';
 
 export default {
   name: 'App',
   data() {
     return {
+      showFactionManager: false,
       showCamapignManager: false
     }
   },
@@ -28,10 +34,12 @@ export default {
     JWT,
     FactionMain,
     CreateCampaign,
-    AddFactionToCampaign
+    AddFactionToCampaign,
+    GiveCredits
   },
   created() {
     var token = getToken();
+    this.showFactionManager = token.isFactionManager;
     this.showCamapignManager = token.isCampaignManager;
   }
 }
