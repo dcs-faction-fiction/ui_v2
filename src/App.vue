@@ -10,6 +10,7 @@
       <CreateCampaign/>
       <AddFactionToCampaign/>
       <GiveCredits/>
+      <StartCampaign/>
     </div>
   </div>
 </template>
@@ -21,6 +22,7 @@ import FactionMain from './components/faction/FactionMain.vue';
 import CreateCampaign from './components/campaign/CreateCampaign.vue';
 import AddFactionToCampaign from './components/campaign/AddFactionToCampaign.vue';
 import GiveCredits from './components/campaign/GiveCredits.vue';
+import StartCampaign from './components/campaign/StartCampaign.vue';
 
 export default {
   name: 'App',
@@ -35,7 +37,8 @@ export default {
     FactionMain,
     CreateCampaign,
     AddFactionToCampaign,
-    GiveCredits
+    GiveCredits,
+    StartCampaign
   },
   created() {
     var token = getToken();

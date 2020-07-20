@@ -1,6 +1,7 @@
 <template>
   <div>
     Available credits: {{situation.credits}}
+    <FactionZone :situation="situation"/>
     <Warehouse :situation="situation" :gameOptions="gameOptions"/>
     <BuyUnit :situation="situation" :gameOptions="gameOptions"/>
     <UnitMap :situation="situation"/>
@@ -12,12 +13,14 @@ import { getFactionSituation, getCampaignGameOptions } from '@/lib/api_fetch.js'
 import Warehouse from './Warehouse.vue';
 import BuyUnit from './BuyUnit.vue';
 import UnitMap from './UnitMap.vue';
+import FactionZone from './FactionZone.vue';
 
 export default {
   components: {
     Warehouse,
     BuyUnit,
-    UnitMap
+    UnitMap,
+    FactionZone
   },
   props: {
     selectedFaction: {},

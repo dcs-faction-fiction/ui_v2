@@ -1,5 +1,17 @@
 const API_URL_BASE = "http://localhost:8080/v2";
 
+export function zoneIncrease(campaignName, factionName, func) {
+  post(API_URL_BASE + "/purchase-api/campaigns/"+campaignName+"/factions/"+factionName+"/zone-increase", {}, func);
+}
+
+export function zoneDecrease(campaignName, factionName, func) {
+  post(API_URL_BASE + "/purchase-api/campaigns/"+campaignName+"/factions/"+factionName+"/zone-decrease", {}, func);
+}
+
+export function startServer(campaignName, serverName, func) {
+  post(API_URL_BASE + "/campaign-api/campaigns/"+campaignName+"/start-server", serverName, func);
+}
+
 export function giveCredits(campaignName, factionName, credits, func) {
   post(API_URL_BASE + "/purchase-api/campaigns/"+campaignName+"/factions/"+factionName+"/give-credits", credits, func);
 }
