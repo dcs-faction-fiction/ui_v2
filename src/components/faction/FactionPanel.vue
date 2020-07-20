@@ -1,15 +1,19 @@
 <template>
   <div>
+    Available credits: {{situation.credits}}
+    <Warehouse :situation="situation" :gameOptions="gameOptions"/>
     <UnitMap :situation="situation"/>
   </div>
 </template>
 
 <script>
 import { getFactionSituation, getCampaignGameOptions } from '@/lib/api_fetch.js';
+import Warehouse from './Warehouse.vue';
 import UnitMap from './UnitMap.vue';
 
 export default {
   components: {
+    Warehouse,
     UnitMap
   },
   props: {

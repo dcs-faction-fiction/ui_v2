@@ -1,5 +1,9 @@
 const API_URL_BASE = "http://localhost:8080/v2";
 
+export function buyWarehouseItem(campaignName, factionName, itemCode, func) {
+  post(API_URL_BASE + "/purchase-api/campaigns/"+campaignName+"/factions/"+factionName+"/buy-warehouse-item", itemCode, func);
+}
+
 export function getCampaignGameOptions(campaignName, factionName, func) {
   get(API_URL_BASE + "/campaignfaction-api/campaigns/"+campaignName+"/factions/"+factionName+"/game-options", func);
 }
@@ -9,7 +13,7 @@ export function getFactionSituation(campaignName, factionName, func) {
 }
 
 export function addFactionToCampaign(campaignName, factionBody, func) {
-    post(API_URL_BASE + "/campaign-api/campaigns/"+campaignName+"/factions", factionBody, func);
+  post(API_URL_BASE + "/campaign-api/campaigns/"+campaignName+"/factions", factionBody, func);
 }
 
 export function createCampaign(campaignBody, func) {
