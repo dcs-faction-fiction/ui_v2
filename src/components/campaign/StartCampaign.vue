@@ -1,8 +1,6 @@
 <template>
   <div id="start-server">
-    Campaign:
-    <input type="text" v-model="campaignName" placeholder="Campaign name"/>
-    Server:
+    Start campaign on server:
     <input type="text" v-model="serverName" placeholder="Server name"/>
     <button @click="startServerButton">START</button>
   </div>
@@ -12,10 +10,18 @@
 import {startServer} from '@/lib/api_fetch.js';
 
 export default {
+  props: {
+    campaignName: {}
+  },
   data() {
     return {
-      serverName: "",
-      campaignName: ""
+      serverName: ""
+    }
+  },
+  watch: {
+    campaigns(val) {
+      if (!this.campaignName && val && val.length > 0)
+        this.campaignName = val[0].name
     }
   },
   methods: {

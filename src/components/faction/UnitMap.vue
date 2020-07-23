@@ -25,7 +25,8 @@ var terrainLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/serv
 
 export default {
   props: {
-    situation: {}
+    situation: {},
+    allies: {}
   },
   data() {
     return {

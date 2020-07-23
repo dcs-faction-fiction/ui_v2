@@ -3,14 +3,11 @@
     <JWT/>
 
     <div id="campaign-manager" v-if="showFactionManager">
-      <FactionMain/>
+      <FactionPanel/>
     </div>
 
     <div id="campaign-manager" v-if="showCamapignManager">
-      <CreateCampaign/>
-      <AddFactionToCampaign/>
-      <GiveCredits/>
-      <StartCampaign/>
+      <CampaignPanel/>
     </div>
   </div>
 </template>
@@ -18,11 +15,8 @@
 <script>
 import {getToken} from '@/lib/api_fetch.js';
 import JWT from './components/JWT.vue';
-import FactionMain from './components/faction/FactionMain.vue';
-import CreateCampaign from './components/campaign/CreateCampaign.vue';
-import AddFactionToCampaign from './components/campaign/AddFactionToCampaign.vue';
-import GiveCredits from './components/campaign/GiveCredits.vue';
-import StartCampaign from './components/campaign/StartCampaign.vue';
+import FactionPanel from './components/faction/FactionPanel.vue';
+import CampaignPanel from './components/campaign/CampaignPanel.vue';
 
 export default {
   name: 'App',
@@ -34,11 +28,8 @@ export default {
   },
   components: {
     JWT,
-    FactionMain,
-    CreateCampaign,
-    AddFactionToCampaign,
-    GiveCredits,
-    StartCampaign
+    FactionPanel,
+    CampaignPanel
   },
   created() {
     var token = getToken();

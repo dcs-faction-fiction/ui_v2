@@ -1,12 +1,10 @@
 <template>
   <div id="add-faction-to-campaign">
     Add faction to campaign: <br/>
-    Campaign:
-    <input type="text" v-model="campaignName" placeholder="Campaign name"/>
     Faction:
-    <input type="text" v-model="faction.faction" placeholder="Faction name"/>
+    <input type="text" v-model="factionName" placeholder="Faction name"/>
     Airbase:
-    <select v-model="faction.airbase">
+    <select v-model="airbase">
       <option v-for="a in AIRBASES" :key="a" :value="a">{{a}}</option>
     </select>
     <button @click="addToCampaign">ADD</button>
@@ -14,20 +12,32 @@
 </template>
 
 <script>
-import addFactionToCampaign from '@/lib/api_fetch.js';
+import {addFactionToCampaign} from '@/lib/api_fetch.js';
 import { AIRBASES } from '@/lib/constants.js';
 
 export default {
+  props: {
+    campaignName: {}
+  },
   data() {
     return {
       AIRBASES: AIRBASES,
-      faction: {},
-      campaignName: ""
+      factionName: null,
+      airbase: null
+    }
+  },
+  watch: {
+    campaigns(val) {
+      if (!this.campaignName && val && val.length > 0)
+        this.campaignName = val[0].name
     }
   },
   methods: {
     addToCampaign() {
-      addFactionToCampaign(this.campaignName, this.faction, () => {});
+      addFactionToCampaign(this.campaignName, {
+        faction: this.factionName,
+        airbase: this.airbase
+      }, () => {});
     }
   }
 }

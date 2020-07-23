@@ -1,6 +1,6 @@
 <template>
   <div id="add-campaign">
-    Create empty campaign with defaults:
+    Create new campaign with defaults:
     <input type="text" v-model="campaignName" placeholder="Campaign name"/>
     <div v-for="(f, index) in factions" :key="index">
       Faction:
@@ -35,7 +35,7 @@ export default {
           name: this.campaignName,
           factions: factionsToAdd,
           gameOptions: opt
-        }, () => {});
+        }, () => this.$parent.reloadCampaigns());
       });
     }
   }
