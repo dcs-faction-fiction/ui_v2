@@ -4,7 +4,7 @@
 </template>
 
 <script>
-
+import { moveUnit } from '@/lib/api_fetch.js';
 import { AIRBASE_LOCATIONS } from '@/lib/constants.js';
 
 import 'leaflet/dist/leaflet.css';
@@ -40,7 +40,6 @@ export default {
         return
       if (!this.situation.units || this.situation.units.length == 0)
         return
-      
       return this.situation.units;
     },
     getAirbase() {
@@ -48,7 +47,6 @@ export default {
         return
       if (!this.situation.airbases || this.situation.airbases.length == 0)
         return
-      
       return this.situation.airbases[0];
     },
     getAirbaseCode() {
@@ -67,11 +65,11 @@ export default {
     },
     replaceAirbase() {
       var coords = this.getAirbaseCoords()
-      if (this.mapObjects['airbase']) {
+      if (this.mapObjects['airbase'])
         this.mapObjects['airbase'].remove()
-      } else {
+      else
         this.map.setView(coords)
-      }
+      
       this.mapObjects['airbase'] = new L.Circle(coords, this.situation.zoneSizeFt * 0.3048, {
         stroke: true,
         color: '#3388ff',
@@ -84,11 +82,18 @@ export default {
       })
       this.mapObjects['airbase'].addTo(this.map)
     },
-    changeUnitPosition(id, lat, lon) {
+    changeUnitPosition(id, uuid, lat, lon) {
       var newunits = JSON.parse(JSON.stringify(this.getUnits()))
       if (newunits[id]) {
         newunits[id].location.latitude = lat
         newunits[id].location.longitude = lon
+
+        moveUnit(this.situation.campaign, this.situation.faction, uuid, {
+          latitude: lat,
+          longitude: lon,
+          altitude: 0,
+          angle: 0},
+          () => {})
         this.$emit('update:units', newunits)
       }
     },
@@ -96,47 +101,82 @@ export default {
       this.$eventHub.$emit('latlon-selected', {lat: lat, lon: lon})
     },
     refreshUnits() {
-      var units = this.getUnits();
-      if (!units) {
-        return
-      }
+      var units = this.getUnits()
 
-      // Need to convert units into leaflet market instances and keep their uuid to be
-      // recognized later.
-
-      // All the items will be emptied anyway.
-      if (this.mapObjects['units']) {
+      if (this.mapObjects['units'])
         this.mapObjects['units'].forEach(u => u.remove())
-      }
-      
-      // Start with a new array
       this.mapObjects['units'] = []
-      
-      // Units are key-values properties in an object
-      var prop
-      for (prop in units) {
-        var t = this
-        var u = units[prop]
 
-        // Create the marker
-        var marker = L.marker([u.location.latitude, u.location.longitude], {
-          draggable: 'true',
-          icon: L.divIcon({html: '<div>'+u.type+'</div>'}),
-          id: prop
-        })
-        
-        // Assign the event behavior
+      var prop
+      for (prop in units)
+        this.addSingleUnit(prop, units[prop], true)
+    },
+    replaceAlliedAirbases() {
+      if (this.mapObjects['alliedAirbases'])
+        this.mapObjects['alliedAirbases'].forEach(u => u.remove())
+      this.mapObjects['alliedAirbases'] = [];
+
+      if (!this.allies || this.allies.length == 0)
+        return
+
+      this.allies.forEach(sit => {
+        var base = sit.airbases[0]
+        if (base.code && AIRBASE_LOCATIONS[base.code]) {
+          var coords = [AIRBASE_LOCATIONS[base.code].lat, AIRBASE_LOCATIONS[base.code].lon];
+          var circle = new L.Circle(coords, sit.zoneSizeFt * 0.3048, {
+            stroke: true,
+            color: '#d3d3d3',
+            weight: 4,
+            opacity: 0.5,
+            fill: true,
+            fillColor: null, //same as color by default
+            fillOpacity: 0.2,
+            clickable: true
+          })
+          this.mapObjects['alliedAirbases'].push(circle)
+          circle.addTo(this.map)
+        }
+      });
+    },
+    getAlliedUnits() {
+      if (!this.allies || this.allies.length == 0)
+        return []
+      return this.allies.flatMap(a => a.units);
+    },
+    refreshAlliedUnits() {
+      var alliedUnits = this.getAlliedUnits();
+      if (this.mapObjects['alliedUnits'])
+        this.mapObjects['alliedUnits'].forEach(u => u.remove())
+      this.mapObjects['alliedUnits'] = []
+
+      var prop
+      for (prop in alliedUnits)
+        this.addSingleUnit(prop, alliedUnits[prop], false)
+    },
+    addSingleUnit(id, u, owned) {
+      var options = {
+        icon: L.divIcon({html: '<div>'+u.type+'</div>'}),
+        id: id,
+        uuid: u.id
+      }
+      if (owned)
+        options.draggable = 'true'
+      var marker = L.marker([u.location.latitude, u.location.longitude], options)
+      
+      if (owned) {
+        var t = this
         marker.on('dragend', e => {
           var marker = e.target
           var position = marker.getLatLng()
-          t.changeUnitPosition(marker.options.id, position.lat, position.lng)
+          t.changeUnitPosition(marker.options.id, marker.options.uuid, position.lat, position.lng)
         });
-
-        // Add it to the map and array
-        marker.addTo(this.map)
-        this.mapObjects['units'].push(marker)
       }
 
+      marker.addTo(this.map)
+      if (owned)
+        this.mapObjects['units'].push(marker)
+      else
+        this.mapObjects['alliedUnits'].push(marker)
     }
   },
   mounted() {
@@ -152,6 +192,11 @@ export default {
     situation() {
       this.replaceAirbase()
       this.refreshUnits()
+      setTimeout(() => this.map.invalidateSize(), 0);
+    },
+    allies() {
+      this.replaceAlliedAirbases()
+      this.refreshAlliedUnits()
       setTimeout(() => this.map.invalidateSize(), 0);
     }
   }

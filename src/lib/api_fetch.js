@@ -1,4 +1,8 @@
-const API_URL_BASE = "/v2";
+const API_URL_BASE = "https://95.216.78.27:8443/v2";
+
+export function moveUnit(campaignName, factionName, unitId, location, func) {
+  post(API_URL_BASE + "/campaignfaction-api/campaigns/"+campaignName+"/factions/"+factionName+"/units/"+unitId+"/new-location", location, func);
+}
 
 export function zoneIncrease(campaignName, factionName, func) {
   post(API_URL_BASE + "/purchase-api/campaigns/"+campaignName+"/factions/"+factionName+"/zone-increase", {}, func);
