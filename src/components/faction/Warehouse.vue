@@ -11,6 +11,14 @@
         <option v-for="item in gameOptions.warehouseItems" :key="item.code" :value="item.code">{{item.code}} ({{item.cost}}c)</option>
       </select>
       <button @click="buySelectedCode">BUY</button>
+      <br/>
+      Allied warehouses
+      <span class="csv" v-for="(ally) in allies" :key="ally.faction">
+        <br/>{{ally.airbases[0].code}}:
+        <span class="csv" v-for="(amount, prop) in ally.airbases[0].warehouse" :key="prop">
+          {{prop}}({{amount}})
+        </span>
+      </span>
     </div>
   </div>
 </template>
@@ -21,6 +29,7 @@ import {buyWarehouseItem} from '@/lib/api_fetch.js';
 export default {
   props: {
     situation: {},
+    allies: {},
     gameOptions: {}
   },
   data() {

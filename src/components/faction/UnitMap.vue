@@ -26,7 +26,8 @@ var terrainLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/serv
 export default {
   props: {
     situation: {},
-    allies: {}
+    allies: {},
+    enemyLocations: {}
   },
   data() {
     return {
@@ -70,15 +71,15 @@ export default {
       else
         this.map.setView(coords)
       
-      this.mapObjects['airbase'] = new L.Circle(coords, this.situation.zoneSizeFt * 0.3048, {
+      this.mapObjects['airbase'] = new L.Circle(coords, {
+        radius: this.situation.zoneSizeFt * 0.3048,
         stroke: true,
         color: '#3388ff',
         weight: 4,
         opacity: 0.5,
         fill: true,
         fillColor: null, //same as color by default
-        fillOpacity: 0.2,
-        clickable: true
+        fillOpacity: 0.2
       })
       this.mapObjects['airbase'].addTo(this.map)
     },
@@ -123,19 +124,43 @@ export default {
         var base = sit.airbases[0]
         if (base.code && AIRBASE_LOCATIONS[base.code]) {
           var coords = [AIRBASE_LOCATIONS[base.code].lat, AIRBASE_LOCATIONS[base.code].lon];
-          var circle = new L.Circle(coords, sit.zoneSizeFt * 0.3048, {
+          var circle = new L.Circle(coords, {
+            radius: sit.zoneSizeFt * 0.3048,
             stroke: true,
             color: '#d3d3d3',
             weight: 4,
             opacity: 0.5,
             fill: true,
             fillColor: null, //same as color by default
-            fillOpacity: 0.2,
-            clickable: true
+            fillOpacity: 0.2
           })
           this.mapObjects['alliedAirbases'].push(circle)
           circle.addTo(this.map)
         }
+      });
+    },
+    replaceEnemyLocations() {
+      if (this.mapObjects['enemyLocations'])
+        this.mapObjects['enemyLocations'].forEach(u => u.remove())
+      this.mapObjects['enemyLocations'] = [];
+
+      if (!this.enemyLocations || this.enemyLocations.length == 0)
+        return
+
+      this.enemyLocations.forEach(loc => {
+        var coords = [loc.latitude, loc.longitude];
+        var circle = new L.CircleMarker(coords, {
+          radius: 13,
+          stroke: true,
+          color: '#ff0000',
+          weight: 1,
+          opacity: 0.5,
+          fill: true,
+          fillColor: null, //same as color by default
+          fillOpacity: 0.2
+        })
+        this.mapObjects['enemyLocations'].push(circle)
+        circle.addTo(this.map)
       });
     },
     getAlliedUnits() {
@@ -198,6 +223,10 @@ export default {
       this.replaceAlliedAirbases()
       this.refreshAlliedUnits()
       setTimeout(() => this.map.invalidateSize(), 0);
+    },
+    enemyLocations() {
+      this.replaceEnemyLocations();
+      setTimeout(() => this.map.invalidateSize(), 0);
     }
   }
 }
@@ -206,6 +235,6 @@ export default {
 <style>
 #map {
   width: 100%;
-  height: 510px;
+  height: 640px;
 }
 </style>

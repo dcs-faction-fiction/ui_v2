@@ -7,13 +7,17 @@
     <select v-model="airbase">
       <option v-for="a in AIRBASES" :key="a" :value="a">{{a}}</option>
     </select>
+    Coalition:
+    <select v-model="coalition">
+      <option v-for="a in COALITIONS" :key="a" :value="a">{{a}}</option>
+    </select>
     <button @click="addToCampaign">ADD</button>
   </div>
 </template>
 
 <script>
 import {addFactionToCampaign} from '@/lib/api_fetch.js';
-import { AIRBASES } from '@/lib/constants.js';
+import { AIRBASES, COALITIONS } from '@/lib/constants.js';
 
 export default {
   props: {
@@ -21,9 +25,11 @@ export default {
   },
   data() {
     return {
+      COALITIONS: COALITIONS,
       AIRBASES: AIRBASES,
       factionName: null,
-      airbase: null
+      airbase: null,
+      coalition: "BLUE"
     }
   },
   watch: {
@@ -36,7 +42,8 @@ export default {
     addToCampaign() {
       addFactionToCampaign(this.campaignName, {
         faction: this.factionName,
-        airbase: this.airbase
+        airbase: this.airbase,
+        coalition: this.coalition
       }, () => {});
     }
   }

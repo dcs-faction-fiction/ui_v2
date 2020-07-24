@@ -40,6 +40,10 @@ export function getAlliedFactionsOfCampaign(campaignName, func) {
   get(API_URL_BASE + "/campaignfaction-api/campaigns/"+campaignName+"/allied-factions", func);
 }
 
+export function getEnemyFactionLocationsOfCampaign(campaignName, func) {
+  get(API_URL_BASE + "/campaignfaction-api/campaigns/"+campaignName+"/enemy-faction-locations", func);
+}
+
 export function getCampaignGameOptions(campaignName, factionName, func) {
   get(API_URL_BASE + "/campaignfaction-api/campaigns/"+campaignName+"/factions/"+factionName+"/game-options", func);
 }

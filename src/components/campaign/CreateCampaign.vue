@@ -9,6 +9,10 @@
       <select v-model="f.airbase">
         <option v-for="a in AIRBASES" :key="a" :value="a">{{a}}</option>
       </select>
+      Coalition:
+      <select v-model="f.coalition">
+        <option v-for="a in COALITIONS" :key="a" :value="a">{{a}}</option>
+      </select>
     </div>
     <button @click="createCampaign">CREATE</button>
   </div>
@@ -16,13 +20,14 @@
 
 <script>
 import { getDefaultGameOptions, createCampaign } from '@/lib/api_fetch.js';
-import { AIRBASES } from '@/lib/constants.js';
+import { AIRBASES, COALITIONS } from '@/lib/constants.js';
 
 export default {
   data() {
     return {
       AIRBASES: AIRBASES,
-      factions: [{}, {}, {}, {}],
+      COALITIONS: COALITIONS,
+      factions: [{coalition: "BLUE"}, {coalition: "BLUE"}, {coalition: "RED"}, {coalition: "RED"}],
       campaignName: "",
       defaultGameOptions: {}
     }

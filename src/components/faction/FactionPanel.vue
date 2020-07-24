@@ -5,14 +5,14 @@
     
     Available credits: {{situation.credits}}
     <FactionZone :situation="situation"/>
-    <Warehouse :situation="situation" :gameOptions="gameOptions"/>
+    <Warehouse :situation="situation" :allies="allies" :gameOptions="gameOptions"/>
     <BuyUnit :situation="situation" :gameOptions="gameOptions"/>
-    <UnitMap :situation="situation" :allies="allies"/>
+    <UnitMap :situation="situation" :allies="allies" :enemyLocations="enemyLocations"/>
   </div>
 </template>
 
 <script>
-import { getFactionSituation, getCampaignGameOptions, getAlliedFactionsOfCampaign } from '@/lib/api_fetch.js';
+import { getFactionSituation, getCampaignGameOptions, getAlliedFactionsOfCampaign, getEnemyFactionLocationsOfCampaign } from '@/lib/api_fetch.js';
 import Warehouse from './Warehouse.vue';
 import BuyUnit from './BuyUnit.vue';
 import UnitMap from './UnitMap.vue';
@@ -27,6 +27,7 @@ export default {
       selectedCampaign: null,
       situation: {},
       allies: [],
+      enemyLocations: [],
       gameOptions: {}
     };
   },
@@ -49,6 +50,9 @@ export default {
         getAlliedFactionsOfCampaign(this.selectedCampaign, allies => {
           this.allies = allies.filter(ally => ally.faction != situation.faction)
         });
+        getEnemyFactionLocationsOfCampaign(this.selectedCampaign, enemyLocations => {
+          this.enemyLocations = enemyLocations
+        })
       });
 
     }

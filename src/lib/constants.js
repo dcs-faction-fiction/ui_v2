@@ -1,4 +1,23 @@
-export const AIRBASES = ["ANAPA", "KRYMSK", "SOCHI", "MAYKOP", "SENAKI", "KOBULETI", "BATUMI", "KUTAISI"];
+
+export const COALITIONS = ["BLUE", "RED"];
+
+export const AIRBASES = [
+  "ANAPA",
+  "KRYMSK",
+  "SOCHI",
+  "MAYKOP",
+  "SENAKI",
+  "KOBULETI",
+  "BATUMI",
+  "KUTAISI",
+  "SUKHUMI",
+  "GUDAUTA",
+  "MINVODY",
+  "NALCHIK",
+  "TBILISI",
+  "BESLAN"
+];
+
 export const AIRBASE_LOCATIONS = {
   ANAPA: {
     lat: 45.0045166,
@@ -31,5 +50,29 @@ export const AIRBASE_LOCATIONS = {
   KUTAISI: {
     lat: 42.17915,
     lon: 42.49568
+  },
+  SUKHUMI: {
+    lat: 43.113816,
+    lon: 40.57033
+  },
+  GUDAUTA: {
+    lat: 43.113816,
+    lon: 40.57033
+  },
+  MINVODY: {
+    lat: 44.22835,
+    lon: 43.08255
+  },
+  NALCHIK: {
+    lat: 43.51345,
+    lon: 43.63318
+  },
+  TBILISI: {
+    lat: 41.6704,
+    lon: 44.95535
+  },
+  BESLAN: {
+    lat: 43.2058,
+    lon: 44.605783
   }
 }
