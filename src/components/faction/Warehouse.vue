@@ -1,21 +1,30 @@
 <template>
   <div>
     <div v-if="airbase">
+      
       Warehouse of {{airbase.name}}: <br/>
-      <span class="csv" v-for="(amount, prop) in airbase.warehouse" :key="prop">
+      <span class="csv" v-for="(amount, prop) in airbase.warehouse" :key="situation.faction+' '+prop">
         {{prop}}({{amount}})
       </span>
-      <br/>
-      Buy warehouse item:
+      <br/><br/>
+
       <select v-model="selectedCode">
-        <option v-for="item in gameOptions.warehouseItems" :key="item.code" :value="item.code">{{item.code}} ({{item.cost}}c)</option>
+        <option v-for="item in gameOptions.warehouseItems" :key="'select '+item.code" :value="item.code">{{item.code}} ({{item.cost}}c)</option>
       </select>
-      <button @click="buySelectedCode">BUY</button>
+      <button @click="addCodeToBasket">ADD TO BASKET</button>
       <br/>
+      <span v-for="(item, code) in basket" :key="'basket '+code">
+        {{code}}({{item.qty}}) <button @click="basketPlus(code)">+</button> <button @click="basketMinus(code)">-</button>
+      </span>
+      <br/>
+      Total: {{total}}
+      <button @click="buyBasket">BUY</button> <button @click="emptyBasket">EMPTY BASKET</button>
+
+      <br/><br/>
       Allied warehouses
       <span class="csv" v-for="(ally) in allies" :key="ally.faction">
         <br/>{{ally.airbases[0].code}}:
-        <span class="csv" v-for="(amount, prop) in ally.airbases[0].warehouse" :key="prop">
+        <span class="csv" v-for="(amount, prop) in ally.airbases[0].warehouse" :key="ally.faction+' '+prop">
           {{prop}}({{amount}})
         </span>
       </span>
@@ -35,7 +44,9 @@ export default {
   data() {
     return {
       airbase: null,
-      selectedCode: null
+      selectedCode: null,
+      basket: {},
+      total: 0
     }
   },
   watch: {
@@ -45,10 +56,52 @@ export default {
     }
   },
   methods: {
-    buySelectedCode() {
-      buyWarehouseItem(this.situation.campaign, this.situation.faction, this.selectedCode, () => {
-        this.$parent.reloadSituation();
-      });
+    addCodeToBasket() {
+      if (!this.basket[this.selectedCode])
+        this.$set(this.basket, this.selectedCode, {
+          code: this.selectedCode,
+          cost: this.gameOptions.warehouseItems.find(w => w.code == this.selectedCode).cost,
+          qty: 0
+        })
+      this.basketPlus(this.selectedCode)
+    },
+    basketPlus(code) {
+      this.basket[code].qty = this.basket[code].qty + 1
+      this.calculateTotal()
+    },
+    basketMinus(code) {
+      this.basket[code].qty = this.basket[code].qty - 1
+      if (this.basket[code].qty <= 0)
+        this.$delete(this.basket, code)
+      this.calculateTotal()
+    },
+    calculateTotal() {
+      var total = 0
+      for (var code in this.basket) {
+        var item = this.basket[code]
+        if (item)
+          total = total + item.cost * item.qty
+      }
+      this.total = total
+    },
+    emptyBasket() {
+      this.basket = {}
+    },
+    buyBasket() {
+      var ct = 0;
+      for (var code in this.basket) {
+        var item = this.basket[code]
+        var count = item.qty
+        for (var i = 0; i < count; i++) {
+          this.basketMinus(item.code)
+          ct = ct + 1
+          buyWarehouseItem(this.situation.campaign, this.situation.faction, item.code, () => {
+            ct = ct - 1
+            if (ct == 0)
+              this.$parent.reloadSituation()
+          });
+        }
+      }
     }
   }
 }
