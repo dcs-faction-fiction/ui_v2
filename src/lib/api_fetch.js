@@ -12,8 +12,8 @@ export function zoneDecrease(campaignName, factionName, func) {
   post(API_URL_BASE + "/purchase-api/campaigns/"+campaignName+"/factions/"+factionName+"/zone-decrease", {}, func);
 }
 
-export function startServer(campaignName, serverName, func) {
-  post(API_URL_BASE + "/campaign-api/campaigns/"+campaignName+"/start-server", serverName, func);
+export function startServer(campaignName, serverName, configuration, func) {
+  post(API_URL_BASE + "/campaign-api/campaigns/"+campaignName+"/servers/"+serverName+"/start-server", configuration, func);
 }
 
 export function giveCredits(campaignName, factionName, credits, func) {
