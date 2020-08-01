@@ -15,7 +15,13 @@ export const AIRBASES = [
   "MINVODY",
   "NALCHIK",
   "TBILISI",
-  "BESLAN"
+  "BESLAN",
+  "VAZIANI",
+  "MOZDOK",
+  "KRASNODAR_CENTER",
+  "KRASNODAR_PASH",
+  "NOVOROSSIYSK",
+  "GELENDZHIK"
 ];
 
 export const AIRBASE_LOCATIONS = {
@@ -74,5 +80,29 @@ export const AIRBASE_LOCATIONS = {
   BESLAN: {
     lat: 43.2058,
     lon: 44.605783
+  },  
+  VAZIANI: {
+    lat: 41.6285666,
+    lon: 45.0278833
+  },
+  MOZDOK: {
+    lat: 43.7918,
+    lon: 44.60486
+  },
+  KRASNODAR_CENTER: {
+    lat: 45.08685,
+    lon: 38.939166
+  },
+  KRASNODAR_PASH: {
+    lat: 45.016666,
+    lon: 39.195166
+  },
+  NOVOROSSIYSK: {
+    lat: 44.66838,
+    lon: 37.77855
+  },
+  GELENDZHIK: {
+    lat: 44.574033,
+    lon: 38.013233
   }
 }
