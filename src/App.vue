@@ -2,10 +2,11 @@
   <div id="app">
     <JWT/>
 
-    <div id="campaign-manager" v-if="showFactionManager">
+    <div id="faction-manager" v-if="isFactionManager">
       <FactionPanel/>
     </div>
 
+    <a id="campaign-manager-link" @click="toggleCampaignManager" v-if="isCampaignManager">Campaign manager</a>
     <div id="campaign-manager" v-if="showCamapignManager">
       <CampaignPanel/>
     </div>
@@ -22,8 +23,15 @@ export default {
   name: 'App',
   data() {
     return {
-      showFactionManager: false,
+      isFactionManager: false,
+      isCampaignManager: false,
       showCamapignManager: false
+    }
+  },
+  methods: {
+    toggleCampaignManager() {
+      if (this.isCampaignManager)
+        this.showCamapignManager = ! this.showCamapignManager
     }
   },
   components: {
@@ -33,13 +41,34 @@ export default {
   },
   created() {
     var token = getToken();
-    this.showFactionManager = token.isFactionManager;
-    this.showCamapignManager = token.isCampaignManager;
+    this.isFactionManager = token.isFactionManager;
+    this.isCampaignManager = token.isCampaignManager;
   }
 }
 </script>
 
 <style>
+body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
 #app {
+}
+#campaign-manager {
+  background: white;
+  position: absolute;
+  bottom: 1em;
+  width: 700px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+#campaign-manager-link {
+  position: absolute;
+  background: white;
+  bottom: 0;
+  color: blue;
+  text-decoration: underline;
 }
 </style>

@@ -95,7 +95,7 @@ export default {
           altitude: 0,
           angle: 0},
           () => {})
-        this.$emit('update:units', newunits)
+        this.$parent.reloadSituation()
       }
     },
     mapClickedAt(lat, lon) {
@@ -235,6 +235,12 @@ export default {
 <style>
 #map {
   width: 100%;
-  height: 640px;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
 }
 </style>

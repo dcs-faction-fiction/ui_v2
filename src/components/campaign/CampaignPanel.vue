@@ -64,6 +64,5 @@ export default {
 
 <style>
 #campaign-panel {
-  border: solid 1px black;
 }
 </style>

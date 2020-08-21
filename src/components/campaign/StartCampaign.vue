@@ -24,7 +24,16 @@
     <input type="checkbox" id="useGameMaster" v-model="missionConfiguration.gameMasterEnabled">
     <label for="useGameMaster">Use game master</label>
     <br/>
-
+    
+    <input type="checkbox" id="useExternalViews" v-model="missionConfiguration.options.externalViews">
+    <label for="useExternalViews">Use external views</label>
+    <br/>
+    <span v-show="missionConfiguration.options.externalViews">
+      <select v-model="missionConfiguration.options.externalViewType">
+        <option v-for="a in externalViewOptions" :key="a" :value="a">{{a}}</option>
+      </select>
+      <br/>
+    </span>
 
     <button @click="startServerButton">START</button>
   </div>
@@ -40,6 +49,13 @@ export default {
   data() {
     return {
       serverName: "server1",
+      externalViewOptions: [
+        "optview_myaircraft",
+        "optview_onlymap",
+        "optview_onlyallies",
+        "optview_allies",
+        "optview_all"
+      ],
       missionConfiguration: {
         time: {
           year: 2020,
@@ -51,6 +67,10 @@ export default {
         },
         weather: {
           random: true
+        },
+        options: {
+          externalViews: true,
+          externalViewType: "optview_allies"
         },
         missionDurationSeconds: 3600 * 2,
         tacticalCommanderSlots: 8,

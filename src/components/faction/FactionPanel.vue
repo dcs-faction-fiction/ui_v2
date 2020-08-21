@@ -1,12 +1,16 @@
 <template>
   <div>
-    <SelectFaction :selection.sync="selectedFaction"/>
-    <SelectCampaign :faction="selectedFaction" :selection.sync="selectedCampaign"/>
-    
-    Available credits: {{situation.credits}}
-    <FactionZone :situation="situation"/>
-    <Warehouse :situation="situation" :allies="allies" :gameOptions="gameOptions"/>
-    <BuyUnit :situation="situation" :gameOptions="gameOptions"/>
+    <div id="faction-manager-selectors">
+      <SelectFaction :selection.sync="selectedFaction"/>
+      &nbsp;&nbsp;
+      <SelectCampaign :faction="selectedFaction" :selection.sync="selectedCampaign"/>
+      &nbsp;&nbsp;
+      Available credits: {{situation.credits}}
+      <FactionZone :situation="situation"/>
+      <Warehouse :situation="situation" :allies="allies" :gameOptions="gameOptions"/>
+      <BuyUnit :situation="situation" :gameOptions="gameOptions"/>
+    </div>
+      
     <UnitMap :situation="situation" :allies="allies" :enemyLocations="enemyLocations"/>
   </div>
 </template>
@@ -69,4 +73,11 @@ export default {
 </script>
 
 <style>
+#faction-manager-selectors {
+  position: absolute;
+  width: 300px;
+  right: 0;
+  background: white;
+  padding: 3px 5px;
+}
 </style>

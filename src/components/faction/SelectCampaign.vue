@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <span>
     <label>Campaign</label>
     <select v-model="localSelection">
       <option v-for="i in items" :key="i" :value="i">
         {{ i }}
       </option>
     </select>
-  </div>
+  </span>
 </template>
 
 <script>

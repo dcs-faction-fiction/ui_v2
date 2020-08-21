@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <span>
     <label>Faction</label>
     <select v-model="localSelection">
       <option v-for="f in factions" :key="f.name" :value="f.name">
         {{ f.name }}
       </option>
     </select>
-  </div>
+  </span>
 </template>
 
 <script>
