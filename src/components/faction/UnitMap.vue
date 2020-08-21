@@ -94,8 +94,8 @@ export default {
           longitude: lon,
           altitude: 0,
           angle: 0},
-          () => {})
-        this.$parent.reloadSituation()
+          () => this.$parent.reloadSituation())
+        
       }
     },
     mapClickedAt(lat, lon) {
