@@ -11,12 +11,12 @@
       <BuyUnit :situation="situation" :gameOptions="gameOptions"/>
     </div>
       
-    <UnitMap :situation="situation" :allies="allies" :enemyLocations="enemyLocations"/>
+    <UnitMap :situation="situation" :allies="allies" :enemyLocations="enemyLocations" :recoShots="recoShots"/>
   </div>
 </template>
 
 <script>
-import { getFactionSituation, getCampaignGameOptions, getAlliedFactionsOfCampaign, getEnemyFactionLocationsOfCampaign } from '@/lib/api_fetch.js';
+import { getFactionSituation, getCampaignGameOptions, getAlliedFactionsOfCampaign, getEnemyFactionLocationsOfCampaign, getRecoShots } from '@/lib/api_fetch.js';
 import Warehouse from './Warehouse.vue';
 import BuyUnit from './BuyUnit.vue';
 import UnitMap from './UnitMap.vue';
@@ -32,6 +32,7 @@ export default {
       situation: {},
       allies: [],
       enemyLocations: [],
+      recoShots: [],
       gameOptions: {}
     };
   },
@@ -58,7 +59,7 @@ export default {
           this.enemyLocations = enemyLocations
         })
       });
-
+      getRecoShots(this.selectedCampaign, this.selectedFaction, s => this.recoShots = s);
     }
   },
   watch: {

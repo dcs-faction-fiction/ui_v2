@@ -1,6 +1,13 @@
 <template>
   <div>
     <div v-if="latlon">
+      <button @click="buyRecoShot">BUY RECO SHOT
+        <br/>
+        cost {{gameOptions.zones.recoShot.cost}}c
+        <br/>
+        {{gameOptions.zones.recoShot.edgeSize}}mt square</button>
+      <br/>
+
       Buy unit:
       <select v-model="selectedCode">
         <option v-for="item in gameOptions.units" :key="item.code" :value="item.code">{{item.code}} ({{item.cost}}c)</option>
@@ -11,7 +18,7 @@
 </template>
 
 <script>
-import {buyUnit} from '@/lib/api_fetch.js';
+import {buyUnit,buyRecoShot} from '@/lib/api_fetch.js';
 
 export default {
   props: {
@@ -40,6 +47,15 @@ export default {
         this.latlon = null;
         this.$parent.reloadSituation();
       });
+    },
+    buyRecoShot() {
+      buyRecoShot(this.situation.campaign, this.situation.faction, {
+        latitude: this.latlon.lat,
+        longitude: this.latlon.lon,
+      }, () => {
+        this.latlon = null;
+        this.$parent.reloadSituation();
+      })
     }
   },
   created() {

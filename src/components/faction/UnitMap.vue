@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import { moveUnit } from '@/lib/api_fetch.js';
+import { moveUnit, deleteRecoShot } from '@/lib/api_fetch.js';
 import { AIRBASE_LOCATIONS } from '@/lib/constants.js';
 
 import 'leaflet/dist/leaflet.css';
@@ -27,7 +27,8 @@ export default {
   props: {
     situation: {},
     allies: {},
-    enemyLocations: {}
+    enemyLocations: {},
+    recoShots: {}
   },
   data() {
     return {
@@ -79,7 +80,9 @@ export default {
         opacity: 0.5,
         fill: true,
         fillColor: null, //same as color by default
-        fillOpacity: 0.2
+        fillOpacity: 0.2,
+        edit: false,
+        clickable: false
       })
       this.mapObjects['airbase'].addTo(this.map)
     },
@@ -132,7 +135,9 @@ export default {
             opacity: 0.5,
             fill: true,
             fillColor: null, //same as color by default
-            fillOpacity: 0.2
+            fillOpacity: 0.2,
+            edit: false,
+            clickable: false
           })
           this.mapObjects['alliedAirbases'].push(circle)
           circle.addTo(this.map)
@@ -161,6 +166,53 @@ export default {
         })
         this.mapObjects['enemyLocations'].push(circle)
         circle.addTo(this.map)
+      });
+    },
+    replaceRecoShots() {
+      if (this.mapObjects['recoShots'])
+        this.mapObjects['recoShots'].forEach(u => u.remove())
+      this.mapObjects['recoShots'] = [];
+
+      if (this.mapObjects['recoUnits'])
+        this.mapObjects['recoUnits'].forEach(u => u.remove())
+      this.mapObjects['recoUnits'] = [];
+
+      if (!this.recoShots || this.recoShots.length == 0)
+        return
+
+      this.recoShots.forEach(loc => {
+        var bounds = [[loc.minLat, loc.minLon], [loc.maxLat, loc.maxLon]];
+        var circle = new L.rectangle(bounds, {
+          recoshotid: loc.id,
+          stroke: true,
+          color: '#9400D3',
+          weight: 1,
+          opacity: 0.5,
+          fill: true,
+          fillColor: null, //same as color by default
+          fillOpacity: 0.2,
+          zIndexOffset: 100
+        })
+        circle.on('click', e => {
+          if (confirm('delete this recoshot? ('+e.target.options.recoshotid+')'))
+            deleteRecoShot(
+              this.situation.campaign,
+              this.situation.faction,
+              e.target.options.recoshotid,
+              () => this.$parent.reloadSituation());
+        });
+        this.mapObjects['recoShots'].push(circle)
+        circle.addTo(this.map)
+
+        loc.units.forEach(unit => {
+          var options = {
+            icon: L.divIcon({html: '<div>'+unit.type+'</div>'})
+          }
+          var marker = L.marker([unit.location.latitude, unit.location.longitude], options)
+          
+          marker.addTo(this.map)
+          this.mapObjects['recoUnits'].push(marker)
+        })
       });
     },
     getAlliedUnits() {
@@ -226,6 +278,10 @@ export default {
     },
     enemyLocations() {
       this.replaceEnemyLocations();
+      setTimeout(() => this.map.invalidateSize(), 0);
+    },
+    recoShots() {
+      this.replaceRecoShots();
       setTimeout(() => this.map.invalidateSize(), 0);
     }
   }

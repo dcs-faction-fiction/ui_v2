@@ -1,5 +1,17 @@
 const API_URL_BASE = "https://95.216.78.27:8443/v2";
 
+export function getRecoShots(campaignName, factionName, func) {
+  get(API_URL_BASE + "/campaignfaction-api/campaigns/"+campaignName+"/factions/"+factionName+"/reco-shots", func);
+}
+
+export function deleteRecoShot(campaignName, factionName, id, func) {
+  delete_endpoint(API_URL_BASE + "/campaignfaction-api/campaigns/"+campaignName+"/factions/"+factionName+"/reco-shots/"+id, func);
+}
+
+export function buyRecoShot(campaignName, factionName, location, func) {
+  post(API_URL_BASE + "/purchase-api/campaigns/"+campaignName+"/factions/"+factionName+"/buy-recoshot", location, func);
+}
+
 export function moveUnit(campaignName, factionName, unitId, location, func) {
   post(API_URL_BASE + "/campaignfaction-api/campaigns/"+campaignName+"/factions/"+factionName+"/units/"+unitId+"/new-location", location, func);
 }
@@ -113,6 +125,18 @@ function post(url, jsonRequest, func) {
 function get(url, func) {
   fetch(url, {
     method: 'GET',
+    headers: {
+      'Authorization': 'Bearer ' + localStorage.token
+    }
+  })
+  .then(resp => resp.ok ? resp.json() : [])
+  .then(body => func(body))
+  .catch(err => console.log(err));
+}
+
+function delete_endpoint(url,  func) {
+  fetch(url, {
+    method: 'DELETE',
     headers: {
       'Authorization': 'Bearer ' + localStorage.token
     }
