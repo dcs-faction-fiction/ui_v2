@@ -4,7 +4,7 @@
       
       Warehouse of {{airbase.name}}: <br/>
       <span class="csv" v-for="(amount, prop) in airbase.warehouse" :key="situation.faction+' '+prop">
-        {{prop}}({{amount}})
+        <span v-if="amount > 0">{{prop}}({{amount}}) </span>
       </span>
       <br/><br/>
 
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import {buyWarehouseItem} from '@/lib/api_fetch.js';
+import {buyWarehouseItems} from '@/lib/api_fetch.js';
 
 export default {
   props: {
@@ -88,20 +88,11 @@ export default {
       this.basket = {}
     },
     buyBasket() {
-      var ct = 0;
+      var request = {basket: {}}
       for (var code in this.basket) {
-        var item = this.basket[code]
-        var count = item.qty
-        for (var i = 0; i < count; i++) {
-          this.basketMinus(item.code)
-          ct = ct + 1
-          buyWarehouseItem(this.situation.campaign, this.situation.faction, item.code, () => {
-            ct = ct - 1
-            if (ct == 0)
-              this.$parent.reloadSituation()
-          });
-        }
+        request.basket[code] = this.basket[code].qty
       }
+      buyWarehouseItems(this.situation.campaign, this.situation.faction, request, () => this.$parent.reloadSituation());
     }
   }
 }

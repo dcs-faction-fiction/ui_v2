@@ -36,6 +36,10 @@ export function buyUnit(campaignName, factionName, unit, func) {
   post(API_URL_BASE + "/purchase-api/campaigns/"+campaignName+"/factions/"+factionName+"/buy-unit", unit, func);
 }
 
+export function buyWarehouseItems(campaignName, factionName, request, func) {
+  post(API_URL_BASE + "/purchase-api/campaigns/"+campaignName+"/factions/"+factionName+"/buy-warehouse-items", request, func);
+}
+
 export function buyWarehouseItem(campaignName, factionName, itemCode, func) {
   post(API_URL_BASE + "/purchase-api/campaigns/"+campaignName+"/factions/"+factionName+"/buy-warehouse-item", itemCode, func);
 }
