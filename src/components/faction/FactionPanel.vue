@@ -78,7 +78,9 @@ export default {
   position: absolute;
   width: 300px;
   right: 0;
+  top: 0;
+  bottom: 0;
   background: white;
-  padding: 3px 5px;
+  padding: 5px 8px;
 }
 </style>

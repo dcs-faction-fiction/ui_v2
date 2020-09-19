@@ -2,12 +2,7 @@
   <div>
     <div v-if="airbase">
       
-      Warehouse of {{airbase.name}}: <br/>
-      <span class="csv" v-for="(amount, prop) in airbase.warehouse" :key="situation.faction+' '+prop">
-        <span v-if="amount > 0">{{prop}}({{amount}}) </span>
-      </span>
-      <br/><br/>
-
+      <br/>Buy warehouse items:
       <select v-model="selectedCode">
         <option v-for="item in gameOptions.warehouseItems" :key="'select '+item.code" :value="item.code">{{item.code}} ({{item.cost}}c)</option>
       </select>
@@ -20,13 +15,28 @@
       Total: {{total}}
       <button @click="buyBasket">BUY</button> <button @click="emptyBasket">EMPTY BASKET</button>
 
-      <br/><br/>
-      Allied warehouses
-      <span class="csv" v-for="(ally) in allies" :key="ally.faction">
-        <br/>{{ally.airbases[0].code}}:
-        <span class="csv" v-for="(amount, prop) in ally.airbases[0].warehouse" :key="ally.faction+' '+prop">
-          {{prop}}({{amount}})
+      <br/><br/>Warehouse of {{airbase.name}}
+      <button @click="toggleAccordion(airbase.name)">
+        <span v-if="!accordionVisible(airbase.name)">+</span>
+        <span v-if="accordionVisible(airbase.name)">-</span>
+      </button>
+      <div :id="'warehouse-'+airbase.name" v-if="accordionVisible(airbase.name)"><br/>
+        <span class="csv" v-for="(amount, prop) in airbase.warehouse" :key="situation.faction+' '+prop">
+          <span v-if="amount > 0">{{prop}}({{amount}})<br/></span>
         </span>
+      </div>
+
+      <span class="csv" v-for="(ally) in allies" :key="ally.faction">
+        <br/><br/>Allied warehouse {{ally.airbases[0].code}}
+        <button @click="toggleAccordion(ally.airbases[0].code)">
+          <span v-if="!accordionVisible(ally.airbases[0].code)">+</span>
+          <span v-if="accordionVisible(ally.airbases[0].code)">-</span>
+        </button>
+        <div :id="'warehouse-'+ally.airbases[0].code" v-if="accordionVisible(ally.airbases[0].code)">
+          <span class="csv" v-for="(amount, prop) in ally.airbases[0].warehouse" :key="ally.faction+' '+prop">
+            <span v-if="amount > 0">{{prop}}({{amount}})<br/></span>
+          </span>
+        </div>
       </span>
     </div>
   </div>
@@ -46,7 +56,8 @@ export default {
       airbase: null,
       selectedCode: null,
       basket: {},
-      total: 0
+      total: 0,
+      accordions: {}
     }
   },
   watch: {
@@ -56,6 +67,17 @@ export default {
     }
   },
   methods: {
+    toggleAccordion(name) {
+      var value = this.accordionVisible(name)
+      this.accordions[name].visible = !value
+    },
+    accordionVisible(name) {
+      if (!this.accordions[name]) {
+        this.$set(this.accordions, name, {})
+        this.$set(this.accordions[name], 'visible', false)
+      }
+      return this.accordions[name].visible
+    },
     addCodeToBasket() {
       if (!this.basket[this.selectedCode])
         this.$set(this.basket, this.selectedCode, {

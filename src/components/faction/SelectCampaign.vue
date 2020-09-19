@@ -1,6 +1,6 @@
 <template>
   <span>
-    <label>Campaign</label>
+    <label>Campaign&nbsp;</label>
     <select v-model="localSelection">
       <option v-for="i in items" :key="i" :value="i">
         {{ i }}

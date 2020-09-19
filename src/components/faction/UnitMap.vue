@@ -9,19 +9,17 @@ import { AIRBASE_LOCATIONS } from '@/lib/constants.js';
 
 import 'leaflet/dist/leaflet.css';
 var L = require('leaflet')
-var mapLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-  maxZoom: 17,
-  minZoom: 4,
-  useCache: true,
-  opacity: 1
-})
-var terrainLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+
+function mountMaps(map) {
+
+var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
 	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
-	minZoom: 4,
   maxZoom: 17,
-  opacity: 0.5
-})
+  useCache: true
+});
+Esri_WorldImagery.addTo(map)
+
+}
 
 export default {
   props: {
@@ -260,8 +258,7 @@ export default {
     if (!this.map) {
       this.map = L.map('map', {zoom: 8, center: [42, 42]})
       this.map.on('click', e => this.mapClickedAt(e.latlng.lat, e.latlng.lng))
-      mapLayer.addTo(this.map)
-      terrainLayer.addTo(this.map)
+      mountMaps(this.map);
       setTimeout(() => this.map.invalidateSize(), 0)
     }
   },
@@ -300,3 +297,4 @@ export default {
   z-index: -1;
 }
 </style>
+

@@ -1,6 +1,6 @@
 <template>
   <span>
-    <label>Faction</label>
+    <label>Faction&nbsp;</label>
     <select v-model="localSelection">
       <option v-for="f in factions" :key="f.name" :value="f.name">
         {{ f.name }}
