@@ -21,7 +21,12 @@ export const AIRBASES = [
   "KRASNODAR_CENTER",
   "KRASNODAR_PASH",
   "NOVOROSSIYSK",
-  "GELENDZHIK"
+  "GELENDZHIK",
+  "FARP_KASPI",
+  "FARP_ZESTAFONI",
+  "FARP_KHASHURI",
+  "FARP_GORI",
+  "SUPERCARRIER_SNAKE"
 ];
 
 export const AIRBASE_LOCATIONS = {
@@ -104,5 +109,25 @@ export const AIRBASE_LOCATIONS = {
   GELENDZHIK: {
     lat: 44.574033,
     lon: 38.013233
+  },
+  FARP_KASPI: {
+    lat: 41.929666,
+    lon: 44.38475
+  },
+  FARP_ZESTAFONI: {
+    lat: 42.120816666,
+    lon: 43.018833333
+  },
+  FARP_KHASHURI: {
+    lat: 41.9852166,
+    lon: 43.6325333
+  },
+  FARP_GORI: {
+    lat: 41.89838333,
+    lon: 44.10433333
+  },
+  SUPERCARRIER_SNAKE: {
+    lat: 42.4886,
+    lon: 40.2774666
   }
 }
