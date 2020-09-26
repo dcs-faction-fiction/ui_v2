@@ -31,7 +31,8 @@ export default {
   data() {
     return {
       map: undefined,
-      mapObjects: {}
+      mapObjects: {},
+      isBlue: true
     }
   },
   methods: {
@@ -40,25 +41,25 @@ export default {
         return
       if (!this.situation.units || this.situation.units.length == 0)
         return
-      return this.situation.units;
+      return this.situation.units
     },
     getAirbase() {
       if (!this.situation)
         return
       if (!this.situation.airbases || this.situation.airbases.length == 0)
         return
-      return this.situation.airbases[0];
+      return this.situation.airbases[0]
     },
     getAirbaseCode() {
-      var airbase = this.getAirbase();
+      var airbase = this.getAirbase()
       if (!airbase)
         return
       return airbase.code;
     },
     getAirbaseCoords() {
-      var code = this.getAirbaseCode();
+      var code = this.getAirbaseCode()
       if (code && AIRBASE_LOCATIONS[code]) {
-        return [AIRBASE_LOCATIONS[code].lat, AIRBASE_LOCATIONS[code].lon];
+        return [AIRBASE_LOCATIONS[code].lat, AIRBASE_LOCATIONS[code].lon]
       } else {
         return [42, 42]
       }
@@ -69,11 +70,11 @@ export default {
         this.mapObjects['airbase'].remove()
       else
         this.map.setView(coords)
-      
+
       this.mapObjects['airbase'] = new L.Circle(coords, {
         radius: this.situation.zoneSizeFt * 0.3048,
         stroke: true,
-        color: '#3388ff',
+        color: this.isBlue ? '#3388ff' : '#ff0000',
         weight: 4,
         opacity: 0.5,
         fill: true,
@@ -155,7 +156,7 @@ export default {
         var circle = new L.CircleMarker(coords, {
           radius: 13,
           stroke: true,
-          color: '#ff0000',
+          color: this.isBlue ? '#ff0000' : '#3388ff',
           weight: 1,
           opacity: 0.5,
           fill: true,
@@ -169,17 +170,17 @@ export default {
     replaceRecoShots() {
       if (this.mapObjects['recoShots'])
         this.mapObjects['recoShots'].forEach(u => u.remove())
-      this.mapObjects['recoShots'] = [];
+      this.mapObjects['recoShots'] = []
 
       if (this.mapObjects['recoUnits'])
         this.mapObjects['recoUnits'].forEach(u => u.remove())
-      this.mapObjects['recoUnits'] = [];
+      this.mapObjects['recoUnits'] = []
 
       if (!this.recoShots || this.recoShots.length == 0)
         return
 
       this.recoShots.forEach(loc => {
-        var bounds = [[loc.minLat, loc.minLon], [loc.maxLat, loc.maxLon]];
+        var bounds = [[loc.minLat, loc.minLon], [loc.maxLat, loc.maxLon]]
         var circle = new L.rectangle(bounds, {
           recoshotid: loc.id,
           stroke: true,
@@ -216,10 +217,10 @@ export default {
     getAlliedUnits() {
       if (!this.allies || this.allies.length == 0)
         return []
-      return this.allies.flatMap(a => a.units);
+      return this.allies.flatMap(a => a.units)
     },
     refreshAlliedUnits() {
-      var alliedUnits = this.getAlliedUnits();
+      var alliedUnits = this.getAlliedUnits()
       if (this.mapObjects['alliedUnits'])
         this.mapObjects['alliedUnits'].forEach(u => u.remove())
       this.mapObjects['alliedUnits'] = []
@@ -264,22 +265,23 @@ export default {
   },
   watch: {
     situation() {
+      this.isBlue = this.situation.airbases[0].coalition == 'BLUE'
       this.replaceAirbase()
       this.refreshUnits()
-      setTimeout(() => this.map.invalidateSize(), 0);
+      setTimeout(() => this.map.invalidateSize(), 0)
     },
     allies() {
       this.replaceAlliedAirbases()
       this.refreshAlliedUnits()
-      setTimeout(() => this.map.invalidateSize(), 0);
+      setTimeout(() => this.map.invalidateSize(), 0)
     },
     enemyLocations() {
       this.replaceEnemyLocations();
-      setTimeout(() => this.map.invalidateSize(), 0);
+      setTimeout(() => this.map.invalidateSize(), 0)
     },
     recoShots() {
       this.replaceRecoShots();
-      setTimeout(() => this.map.invalidateSize(), 0);
+      setTimeout(() => this.map.invalidateSize(), 0)
     }
   }
 }

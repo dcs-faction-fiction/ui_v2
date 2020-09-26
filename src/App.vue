@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     toggleCampaignManager() {
-      if (this.isCampaignManager)
+      if (this.isCampaignManager && this.isFactionManager)
         this.showCamapignManager = ! this.showCamapignManager
     }
   },
@@ -41,8 +41,10 @@ export default {
   },
   created() {
     var token = getToken();
-    this.isFactionManager = token.isFactionManager;
-    this.isCampaignManager = token.isCampaignManager;
+    this.isFactionManager = token.isFactionManager
+    this.isCampaignManager = token.isCampaignManager
+    if (this.isCampaignManager && !this.isFactionManager)
+      this.showCamapignManager = true
   }
 }
 </script>

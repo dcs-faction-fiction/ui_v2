@@ -1,6 +1,7 @@
 <template>
   <span>
     <label>Faction&nbsp;</label>
+    <button @click="newFaction">+</button>
     <select v-model="localSelection">
       <option v-for="f in factions" :key="f.name" :value="f.name">
         {{ f.name }}
@@ -25,29 +26,32 @@ export default {
   },
   watch: {
     localSelection(val) {
-      this.$emit('update:selection', val);
+      this.$emit('update:selection', val)
     },
     factions(val) {
       if (!this.localSelection && val && val.length > 0)
-        this.localSelection = val[0].name;
+        this.localSelection = val[0].name
     }
   },
   methods: {
+    newFaction() {
+      var name = prompt("Name for a new faction")
+      newFaction(name, () => {
+        getFactions(factions => this.factions = factions)
+      })
+    },
     reload() {
       getFactions(factions => {
         if (!factions || factions.length == 0) {
-          var name = prompt("Name for a new faction");
-          newFaction(name, () => {
-            getFactions(factions => this.factions = factions);
-          })
+          newFaction()
         } else {
-          this.factions = factions;
+          this.factions = factions
         }
       });
     }
   },
   created() {
-    this.reload();
+    this.reload()
   }
 }
 </script>

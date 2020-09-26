@@ -115,8 +115,8 @@ export default {
         request.basket[code] = this.basket[code].qty
       }
       buyWarehouseItems(this.situation.campaign, this.situation.faction, request, () => {
-        this.$parent.reloadSituation();
-        this.emptyBasket();
+        this.$parent.reloadSituation()
+        this.emptyBasket()
       });
     }
   }

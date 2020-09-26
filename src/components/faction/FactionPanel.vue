@@ -49,17 +49,17 @@ export default {
       if (!this.selectedFaction || !this.selectedCampaign)
         return
 
-      getCampaignGameOptions(this.selectedCampaign, this.selectedFaction, s => this.gameOptions = s);
+      getCampaignGameOptions(this.selectedCampaign, this.selectedFaction, s => this.gameOptions = s)
       getFactionSituation(this.selectedCampaign, this.selectedFaction, situation => {
         this.situation = situation;
         getAlliedFactionsOfCampaign(this.selectedCampaign, allies => {
           this.allies = allies.filter(ally => ally.faction != situation.faction)
-        });
-        getEnemyFactionLocationsOfCampaign(this.selectedCampaign, enemyLocations => {
-          this.enemyLocations = enemyLocations
+          getEnemyFactionLocationsOfCampaign(this.selectedCampaign, enemyLocations => {
+            this.enemyLocations = enemyLocations
+            getRecoShots(this.selectedCampaign, this.selectedFaction, s => this.recoShots = s)
+          })
         })
-      });
-      getRecoShots(this.selectedCampaign, this.selectedFaction, s => this.recoShots = s);
+      })
     }
   },
   watch: {

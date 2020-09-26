@@ -14,10 +14,10 @@ export default {
   },
   methods: {
     increase() {
-      zoneIncrease(this.situation.campaign, this.situation.faction, () => this.$parent.reloadSituation());
+      zoneIncrease(this.situation.campaign, this.situation.faction, () => this.$parent.reloadSituation())
     },
     decrease() {
-      zoneDecrease(this.situation.campaign, this.situation.faction, () => this.$parent.reloadSituation());
+      zoneDecrease(this.situation.campaign, this.situation.faction, () => this.$parent.reloadSituation())
     }
   }
 }

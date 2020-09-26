@@ -60,7 +60,7 @@ export default {
   },
   created() {
     this.$eventHub.$on('latlon-selected', (latlon) => {
-      this.latlon = latlon;
+      this.latlon = latlon
     })
   },
   beforeDestroy() {
