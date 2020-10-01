@@ -10,7 +10,9 @@
 
       Buy unit:
       <select v-model="selectedCode">
-        <option v-for="item in gameOptions.units" :key="item.code" :value="item.code">{{item.code}} ({{item.cost}}c)</option>
+        <optgroup v-for="(items, key) in units" :key="key" :label="key">
+          <option v-for="item in items" :key="item.code" :value="item.code">{{item.code}} ({{item.cost}}c)</option>
+        </optgroup>
       </select>
       <button @click="buySelectedCode">BUY</button>
     </div>
@@ -28,10 +30,19 @@ export default {
   data() {
     return {
       selectedCode: null,
-      latlon: null
+      latlon: null,
+      units: {}
     }
   },
   watch: {
+    gameOptions(val) {
+      this.units = val.units.reduce((map, obj) => {
+        if (!map[obj.type])
+          map[obj.type] = []
+        map[obj.type].push(obj)
+        return map
+      }, {});
+    }
   },
   methods: {
     buySelectedCode() {

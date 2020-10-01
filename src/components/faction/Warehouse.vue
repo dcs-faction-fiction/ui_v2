@@ -4,7 +4,9 @@
       
       <br/>Buy warehouse items:
       <select v-model="selectedCode">
-        <option v-for="item in gameOptions.warehouseItems" :key="'select '+item.code" :value="item.code">{{item.code}} ({{item.cost}}c)</option>
+        <optgroup v-for="(items, key) in warehouseItems" :key="key" :label="key">
+          <option v-for="item in items" :key="'select '+item.code" :value="item.code">{{item.code}} ({{item.cost}}c)</option>
+        </optgroup>
       </select>
       <button @click="addCodeToBasket">ADD TO BASKET</button>
       <br/>
@@ -55,6 +57,7 @@ export default {
     return {
       airbase: null,
       selectedCode: null,
+      warehouseItems: {},
       basket: {},
       total: 0,
       accordions: {}
@@ -64,6 +67,14 @@ export default {
     situation(val) {
       if (val && val.airbases && val.airbases.length > 0)
         this.airbase = val.airbases[0]
+    },
+    gameOptions(val) {
+      this.warehouseItems = val.warehouseItems.reduce((map, obj) => {
+        if (!map[obj.category])
+          map[obj.category] = []
+        map[obj.category].push(obj)
+        return map
+      }, {})
     }
   },
   methods: {

@@ -159,7 +159,7 @@ export default {
         return
 
       this.enemyLocations.forEach(loc => {
-        var coords = [loc.latitude, loc.longitude];
+        var coords = [loc.latitude, loc.longitude]
         var circle = new L.CircleMarker(coords, {
           radius: 13,
           stroke: true,
