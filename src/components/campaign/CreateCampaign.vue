@@ -4,7 +4,7 @@
     <input type="text" v-model="campaignName" placeholder="Campaign name"/>
     <br/>
     Campaign Options:<br/>
-    <textarea id="gameOptions" v-model="defaultGameOptions" rows="25" cols="80" :class="validOptions ? 'valid' : 'invalid'"></textarea>
+    <textarea id="gameOptions" v-model="defaultGameOptions" rows="15" cols="80" :class="validOptions ? 'valid' : 'invalid'"></textarea>
     <br/>
     <button @click="createCampaign">CREATE</button>
   </div>

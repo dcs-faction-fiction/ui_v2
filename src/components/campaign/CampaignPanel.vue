@@ -12,6 +12,7 @@
     <AddFactionToCampaign :campaignName="campaignName"/>
     <GiveCredits :campaignName="campaignName" :factionName="factionName"/>
     <StartCampaign :campaignName="campaignName"/>
+    <ChangeCampaignOptions :campaignName="campaignName" :factionName="factionName"/>
     <CreateCampaign/>
   </div>
 </template>
@@ -19,6 +20,7 @@
 <script>
 import { getAllCampaigns, getAllFactionsOfCampaign } from '@/lib/api_fetch.js';
 import CreateCampaign from './CreateCampaign.vue';
+import ChangeCampaignOptions from './ChangeCampaignOptions.vue';
 import AddFactionToCampaign from './AddFactionToCampaign.vue';
 import GiveCredits from './GiveCredits.vue';
 import StartCampaign from './StartCampaign.vue';
@@ -34,6 +36,7 @@ export default {
   },
   components: {
     CreateCampaign,
+    ChangeCampaignOptions,
     AddFactionToCampaign,
     GiveCredits,
     StartCampaign

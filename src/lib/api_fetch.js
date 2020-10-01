@@ -60,6 +60,10 @@ export function getEnemyFactionLocationsOfCampaign(campaignName, func) {
   get(API_URL_BASE + "/campaignfaction-api/campaigns/"+campaignName+"/enemy-faction-locations", func);
 }
 
+export function setCampaignGameOptions(campaignName, options, func) {
+  post(API_URL_BASE + "/campaignfaction-api/campaigns/"+campaignName+"/game-options", options, func);
+}
+
 export function getCampaignGameOptions(campaignName, factionName, func) {
   get(API_URL_BASE + "/campaignfaction-api/campaigns/"+campaignName+"/factions/"+factionName+"/game-options", func);
 }
