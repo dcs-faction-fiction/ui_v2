@@ -1,7 +1,8 @@
 <template>
   <div id="add-campaign">
-    Change campaign options:
-    <textarea id="gameOptions" v-model="gameOptions" rows="10" cols="80" :class="validOptions ? 'valid' : 'invalid'"></textarea>
+    Change campaign options: <button @click="toggleTextArea"><span v-if="!textareaVisible">+</span><span v-if="textareaVisible">-</span></button>
+    <br/>
+    <textarea v-if="textareaVisible" id="gameOptions" v-model="gameOptions" rows="10" cols="80" :class="validOptions ? 'valid' : 'invalid'"></textarea>
     <br/>
     <button @click="changeCampaignOptions">CHANGE</button>
   </div>
@@ -18,7 +19,8 @@ export default {
   data() {
     return {
       validOptions: false,
-      gameOptions: "{}"
+      gameOptions: "{}",
+      textareaVisible: false
     }
   },
   methods: {
@@ -29,6 +31,9 @@ export default {
       getCampaignGameOptions(this.campaignName, this.factionName, opt => {
         this.gameOptions = JSON.stringify(opt, null, 2)
       })
+    },
+    toggleTextArea() {
+      this.textareaVisible = ! this.textareaVisible;
     }
   },
   watch: {

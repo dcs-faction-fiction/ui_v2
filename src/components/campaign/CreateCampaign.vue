@@ -3,8 +3,9 @@
     Create new campaign:
     <input type="text" v-model="campaignName" placeholder="Campaign name"/>
     <br/>
-    Campaign Options:<br/>
-    <textarea id="gameOptions" v-model="defaultGameOptions" rows="15" cols="80" :class="validOptions ? 'valid' : 'invalid'"></textarea>
+    Campaign Options: <button @click="toggleTextArea"><span v-if="!textareaVisible">+</span><span v-if="textareaVisible">-</span></button>
+    <br/>
+    <textarea v-if="textareaVisible" id="gameOptions" v-model="defaultGameOptions" rows="15" cols="80" :class="validOptions ? 'valid' : 'invalid'"></textarea>
     <br/>
     <button @click="createCampaign">CREATE</button>
   </div>
@@ -21,7 +22,8 @@ export default {
       COALITIONS: COALITIONS,
       campaignName: "",
       defaultGameOptions: "",
-      validOptions: false
+      validOptions: false,
+      textareaVisible: false
     }
   },
   methods: {
@@ -32,6 +34,9 @@ export default {
           gameOptions: opt
         }, () => this.$parent.reloadCampaigns());
       });
+    },
+    toggleTextArea() {
+      this.textareaVisible = ! this.textareaVisible;
     }
   },
   watch: {
