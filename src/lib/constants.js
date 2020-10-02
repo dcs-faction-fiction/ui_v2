@@ -123,8 +123,8 @@ export const AIRBASE_LOCATIONS = {
     lon: 43.6325333
   },
   FARP_GORI: {
-    lat: 41.89838333,
-    lon: 44.10433333
+    lat: 42.0053333,
+    lon: 44.1032166
   },
   SUPERCARRIER_SNAKE: {
     lat: 42.4886,
