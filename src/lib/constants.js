@@ -26,6 +26,8 @@ export const AIRBASES = [
   "FARP_ZESTAFONI",
   "FARP_KHASHURI",
   "FARP_GORI",
+  "FARP_PROHLADNIY",
+  "FARP_ELHOTOVO",
   "SUPERCARRIER_SNAKE"
 ];
 
@@ -125,6 +127,14 @@ export const AIRBASE_LOCATIONS = {
   FARP_GORI: {
     lat: 42.0053333,
     lon: 44.1032166
+  },
+  FARP_PROHLADNIY: {
+    lat: 43.761333333,
+    lon: 44.045566666
+  },
+  FARP_ELHOTOVO: {
+    lat: 43.352266,
+    lon: 44.215433
   },
   SUPERCARRIER_SNAKE: {
     lat: 42.4886,

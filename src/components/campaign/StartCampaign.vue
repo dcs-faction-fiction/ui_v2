@@ -28,13 +28,10 @@
     <input type="checkbox" id="useExternalViews" v-model="missionConfiguration.options.externalViews">
     <label for="useExternalViews">Use external views</label>
     <br/>
-    <span v-show="missionConfiguration.options.externalViews">
-      <select v-model="missionConfiguration.options.externalViewType">
-        <option v-for="a in externalViewOptions" :key="a" :value="a">{{a}}</option>
-      </select>
-      <br/>
-    </span>
-
+    <select v-model="missionConfiguration.options.externalViewType">
+      <option v-for="a in externalViewOptions" :key="a" :value="a">{{a}}</option>
+    </select>
+    <br/>
     <button @click="startServerButton">START</button>
   </div>
 </template>
