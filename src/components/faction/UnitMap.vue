@@ -26,6 +26,10 @@ var Stamen_TonerLabels = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/
 	ext: 'png'
 });
 Stamen_TonerLabels.addTo(map)
+var utm = L.tileLayer('https://{s}.tile.stamen.com/utm/{z}/{x}/{y}.png', {
+  attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data  &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>'
+}).addTo(map);
+utm.addTo(map)
 }
 
 export default {
