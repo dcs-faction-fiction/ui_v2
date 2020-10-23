@@ -216,7 +216,7 @@ export default {
 
         loc.units.forEach(unit => {
           var options = {
-            icon: L.divIcon({html: '<div>'+unit.type+'</div>'})
+            icon: L.divIcon({html: '<div class="reco-shot-unit">'+unit.type+'</div>'})
           }
           var marker = L.marker([unit.location.latitude, unit.location.longitude], options)
           
@@ -242,7 +242,7 @@ export default {
     },
     addSingleUnit(id, u, owned) {
       var options = {
-        icon: L.divIcon({html: '<div>'+u.type+'</div>'}),
+        icon: L.divIcon({html: '<div class="unit'+(owned?' owned':'')+'">'+u.type+'</div>'}),
         id: id,
         uuid: u.id
       }
@@ -308,6 +308,18 @@ export default {
   top: 0;
   bottom: 0;
   z-index: -1;
+}
+.reco-shot-unit {
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  color: coral;
+}
+.unit {
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  color: gray;
+}
+.unit.owned {
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  color: white;
 }
 </style>
 
