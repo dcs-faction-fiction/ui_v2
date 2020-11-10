@@ -8,6 +8,7 @@
     <select v-model="factionName">
       <option v-for="c in factions" :key="c.faction" :value="c.faction">{{c.faction}}({{c.credits}}c)</option>
     </select>
+    <button @click="removeFaction">REMOVE FACTION FROM CAMPAIGN</button>
 
     <AddFactionToCampaign :campaignName="campaignName"/>
     <GiveCredits :campaignName="campaignName" :factionName="factionName"/>
@@ -18,7 +19,7 @@
 </template>
 
 <script>
-import { getAllCampaigns, getAllFactionsOfCampaign } from '@/lib/api_fetch.js';
+import { getAllCampaigns, getAllFactionsOfCampaign, removeCampaignFaction } from '@/lib/api_fetch.js';
 import CreateCampaign from './CreateCampaign.vue';
 import ChangeCampaignOptions from './ChangeCampaignOptions.vue';
 import AddFactionToCampaign from './AddFactionToCampaign.vue';
@@ -57,6 +58,13 @@ export default {
   methods: {
     reloadCampaigns() {
       getAllCampaigns(s => this.campaigns = s)
+    },
+    removeFaction() {
+      if (!this.campaignName || !this.factionName)
+        return
+      if (!confirm("This will delete the faction and all the warehouse, units and everything else from this campaign. Continue?"))
+        return
+      removeCampaignFaction(this.campaignName, this.factionName, () => {})
     }
   },
   created() {

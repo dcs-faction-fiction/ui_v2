@@ -77,7 +77,7 @@ export function addFactionToCampaign(campaignName, factionBody, func) {
 }
 
 export function removeCampaignFaction(campaignName, factionName, func) {
-  delete_endpoint(API_URL_BASE + "/campaignfaction-api/campaigns/"+campaignName+"/factions"+factionName, func);
+  delete_endpoint(API_URL_BASE + "/campaignfaction-api/campaigns/"+campaignName+"/factions/"+factionName, func);
 }
 
 export function createCampaign(campaignBody, func) {
